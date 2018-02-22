@@ -356,20 +356,17 @@
 
       
         
-          
-            <h3 id="MySQL数据库（zip）安装"><a href="#MySQL数据库（zip）安装" class="headerlink" title="MySQL数据库（zip）安装"></a>MySQL数据库（zip）安装</h3><p>1.解压  </p>
+          <h3 id="MySQL数据库（zip）安装"><a href="#MySQL数据库（zip）安装" class="headerlink" title="MySQL数据库（zip）安装"></a>MySQL数据库（zip）安装</h3><p>1.解压  </p>
 <p>2.配置环境变量  </p>
 <p>3.新建data目录，用作存放数据，也可不新建，不用配置文件初始化。 </p>
 <p>4.新建my.ini文件，文件内容如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">#设置mysql的安装目录</span><br><span class="line">basedir=D:\\software\\mysql-5.7.18-winx64</span><br><span class="line">#设置mysql数据库的数据的存放目录</span><br><span class="line">datadir=D:\\software\\mysql-5.7.18-winx64\\data</span><br></pre></td></tr></table></figure></p>
-<p>注意，my.ini必须为ANSI编码，不能为utf-8，否则后续命令报错。<br>注意，windows环境下\的转义。 </p>
-<p>5.在bin目录下（配置过环境变量后不需要）执行：  </p>
-<p><code>mysqld --defaults-file=D:\software\mysql-5.7.18-winx64\my.ini --initialize-insecure</code><br>其中–defaults-file选项必须在第一个。 initialize-insecure表示不生成随机密码，initialize表示生成随机密码。</p>
-<p>6.注册服务，执行<code>mysqld --install MySQL</code>  </p>
-<p>7.启动服务， <code>net start mysql</code>  </p>
-<p>8.第一次登录无需密码，进入mysql命令行后执行：<br><code>alter user &#39;root&#39;@&#39;localhost&#39; identified by &#39;123456&#39;;</code></p>
-<p><a href="https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization-mysqld.html" title="官网文档链接" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/5.7/en/data-directory-initialization-mysqld.html </a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/07/windows-下安装-mysql5-7-zip版/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
