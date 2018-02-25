@@ -1,6 +1,6 @@
 ---
-title: 使用Github Page和Hexo搭建博客
-date: 2018-02-06 18:23:28
+title: 使用Github Page和Hexo搭建博客(下)
+date: 2018-02-06 16:23:28
 tags: 博客 Hexo
 categories: 软件
 
