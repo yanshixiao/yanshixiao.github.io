@@ -2,8 +2,7 @@
 title: Sublime Text3 常用快捷键
 date: 2018-02-06 16:54:03
 tags: 软件 sublime
-categories: 软件 sublime
-description: sublime text333
+categories: 软件
 ---
 ### 选择类
 - `shift`+右键或者鼠标中键选择矩形区域，然后编辑会批量替换

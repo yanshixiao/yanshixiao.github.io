@@ -8,7 +8,7 @@ categories: 软件
 想要优雅的使用sublime text,插件是必不可少的，而插件的备份闲的尤为重要。只需要将`packages`(Preferences > Browse Packages)中内容拷贝一份，其对应着一个Data目录，exe安装文件版本默认位置在  
 `C:\Users\Adminstrator\AppData\Roaming\Data`,   
 而zip包解压安装后Data目录就在sublimetext根目录\Data\Packages下。
-
+<!--more-->
 #### 破解
 
 网上一抓一大把

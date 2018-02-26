@@ -13,7 +13,7 @@ npm -v
 ​   测试git
 
 电脑任一文件夹右键出现Git GUI Here和Git Bash Here
-
+<!--more-->
 Github新建项目
 
 项目名必须遵守：用户名.github.io。并且勾选Initialize this repository with a README
