@@ -264,6 +264,486 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/13/收获不止Oracle-提交和回滚/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="延时晓">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qingyin.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="延时晓">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/13/收获不止Oracle-提交和回滚/" itemprop="url">收获不止Oracle-提交和回滚</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T18:56:18+08:00">
+                2018-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/收获不止Oracle/" itemprop="url" rel="index">
+                    <span itemprop="name">收获不止Oracle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h5><p>commit提交时并不一定会将缓存区的数据写入磁盘，从效率考虑肯定是积累到一定数量后批量保存。但就带来了安全问题，数据缓存区是内存空间，断电怎么办？其实commit时，日志会记录下当前操作。LGWR将操作写入redo日志，断电后只要再次执行，就不会丢失数据。</p>
+<p>运行过程中，批量刷出的数据占数据缓存区的比例越大，效率一般也越高，但断电后数据库重启恢复数据的时间也就更长，所以需要一个平衡。</p>
+<p>真正控制数据缓存区数据什么时候写入磁盘的是CKPT进程。CKPT进程触发DBWR写数据。而凡事要有记录，DBWR要等待LGWR将日志记录完后才工作，如果LGWR挂掉，DBWR还是不会听从CKPT命令而罢工。长时间不COMMIT提交，CKPT自动触发DBWR将数据写入磁盘。</p>
+<p>CKPT的触发时间可以用FAST START MTTR TARGET 参数调整。</p>
+<h5 id="回滚"><a href="#回滚" class="headerlink" title="回滚"></a>回滚</h5><p>举个栗子。这样一条更新语句：update t set object_id=92 where object_id=29; </p>
+<ol>
+<li>首先要查询object_id=29的记录，检查object_id=29的记录是否在缓存区中，不存在则从磁盘中读取到数据缓冲区中。</li>
+<li>在回滚表空间的响应回滚段事务表上分配事务槽，从而在回滚表空间分配到空间。该动作需要记录日志写进日志缓存区。</li>
+<li>在数据缓存区中创建object_id=29的前镜像，前镜像数据也会写进磁盘的数据文件里（回滚表空间的数据文件），当然也会记录日志并由LGWR写入磁盘形成redo文件。</li>
+<li>准备工作做好，允许数据修改，先记录进日志缓存区。</li>
+<li>如果用户提交，日志缓存区记录这个提交信息，然后把回滚段事务标记为非激活的INACTIVE状态，表示允许重写。</li>
+<li>如果执行回滚，就从回滚段中将前镜像object_id=29的数据读出来，修改数据缓存区，完成回滚。</li>
+</ol>
+<p><img src="../images/2.png" alt="image"><br>UNDO_MANAGEMENT为AUTO表示是自动回滚段管理，回滚段空间不够时可以自动扩展；UNDO_RETENTION为900表示DML语句需要记录前镜像，当COMMIT后，表示回滚段保留的前镜像被打上了可以覆盖重新使用的标记，但要在900秒后方可允许；UNDO_TABLESPACE为UNDOTBS1一眼就明白了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/13/收获不止Oracle-体系结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="延时晓">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qingyin.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="延时晓">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/13/收获不止Oracle-体系结构/" itemprop="url">收货不止Oracle-体系结构</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T09:39:38+08:00">
+                2018-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/收获不止Oracle/" itemprop="url" rel="index">
+                    <span itemprop="name">收获不止Oracle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h4><p>啥也不说，先贴个图</p>
+<p><img src="../images/3.png" alt="image"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/13/收获不止Oracle-体系结构/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/07/利用Python、R、Excel做频数统计并绘制条形图和饼图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="延时晓">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qingyin.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="延时晓">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/07/利用Python、R、Excel做频数统计并绘制条形图和饼图/" itemprop="url">利用Python、R、Excel做频数统计并绘制条形图和饼图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T11:03:41+08:00">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/商务与经济统计/" itemprop="url" rel="index">
+                    <span itemprop="name">商务与经济统计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Excel、Python、R三种方法进行频数分析并画出条形图和饼形图</p>
+<p>Excel 利用函数COUNTIF，传入两个参数，第一个为源数据，第二个为分类数据各列一遍（即频数统计的各项）</p>
+<hr>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><h5 id="频数统计"><a href="#频数统计" class="headerlink" title="频数统计"></a>频数统计</h5><p>利用count()函数，具体见下方条形图的代码。</p>
+<h5 id="条形图"><a href="#条形图" class="headerlink" title="条形图"></a>条形图</h5><p>方法如下：</p>
+<blockquote>
+<p>matplotlib.pyplot.bar(left, height, width=0.8, bottom=None, hold=None, data=None, **kwargs)</p>
+</blockquote>
+<p>参数说明：</p>
+<ul>
+<li><p>left: 每一个柱形左侧的X坐标</p>
+</li>
+<li><p>height:每一个柱形的高度</p>
+</li>
+<li><p>width: 柱形之间的宽度</p>
+</li>
+<li><p>bottom: 柱形的Y坐标</p>
+</li>
+<li><p>color: 柱形的颜色</p>
+</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/07/利用Python、R、Excel做频数统计并绘制条形图和饼图/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/商务与经济统计-（二）描述统计学一：表格法和图形法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -356,8 +836,7 @@
 
       
         
-          
-            <p>数据可以分为分类型和数量型，<strong>分类型数据</strong>是用标签活名称来识别项目的类型。<strong>数量型数据</strong>是表示大小或多少的数值。</p>
+          <p>数据可以分为分类型和数量型，<strong>分类型数据</strong>是用标签活名称来识别项目的类型。<strong>数量型数据</strong>是表示大小或多少的数值。</p>
 <p><strong>数据可视化</strong>常常用于描述汇总和表述一个数据集信息的图形显示的效用。</p>
 <h3 id="汇总分类变量的数据"><a href="#汇总分类变量的数据" class="headerlink" title="汇总分类变量的数据"></a>汇总分类变量的数据</h3><h4 id="频数分布"><a href="#频数分布" class="headerlink" title="频数分布"></a>频数分布</h4><p><strong>频数分布（frequency distribution）</strong> 是一种数据的表格汇总方法，表示在几个互不重叠组别中，每一组项目的个数（即频数）。</p>
 <table>
@@ -394,38 +873,13 @@
 </tr>
 </tbody>
 </table>
-<p><strong>相对频数分布和百分数频数分布</strong></p>
-<p><strong>相对频数分布(relative frequency distribution)</strong><br>是每一组相对频数数据的表格汇总</p>
-<p><strong>百分数频数分布(percent frequency distribution)</strong> 是每一组百分数频数数据的表格汇总</p>
-<h4 id="条形图和饼形图"><a href="#条形图和饼形图" class="headerlink" title="条形图和饼形图"></a>条形图和饼形图</h4><hr>
-<h3 id="汇总数量变量的数据"><a href="#汇总数量变量的数据" class="headerlink" title="汇总数量变量的数据"></a>汇总数量变量的数据</h3><h4 id="频数分布-1"><a href="#频数分布-1" class="headerlink" title="频数分布"></a>频数分布</h4><p>对于数量型数据，在定义用于频数分布的互补重叠组别时，要格外小心。一般来讲，确定频数分布的组时，三个必要的步骤是：</p>
-<p>（1）确定互不重叠组的组数。</p>
-<p>（2）确定每组的宽度。</p>
-<p>（3）确定组限。</p>
-<ul>
-<li><p><strong>组数</strong>：一般选择5~20组。</p>
-</li>
-<li><p><strong>租宽</strong>：一般，每组宽度相同。</p>
-<p>  近似组宽 = （数据最大值-数据最小值）/组数</p>
-</li>
-<li><p><strong>组限</strong>：选择组限必须使每一个数据值属于且只属于一组。说白了就是开闭区间等问题。</p>
-</li>
-<li><p><strong>组中值</strong>：上组限和下组限的中间值，如一个组为10~14，那么它的组中值为12。</p>
-<h4 id="相对频数分布和百分比频数分布"><a href="#相对频数分布和百分比频数分布" class="headerlink" title="相对频数分布和百分比频数分布"></a>相对频数分布和百分比频数分布</h4><h4 id="打点图"><a href="#打点图" class="headerlink" title="打点图"></a>打点图</h4><p><strong>打点图（dot plot）</strong> 横轴是数据的值域，每一个数据值由位于横轴上的点表示。</p>
-<h4 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h4></li>
-</ul>
-<p><strong>直方图（histogram）</strong> 尾部向左延伸一些，则图形<strong>左偏</strong>。一般考试成绩符合这种，少数人成绩很低。</p>
-<p>尾部向右侧延伸一些，则图形<strong>右偏</strong>。比如房价，少数房子比其他更加昂贵。</p>
-<h4 id="累积分布"><a href="#累积分布" class="headerlink" title="累积分布"></a>累积分布</h4><p><strong>累积频数分布（cumulative frequency distribution）</strong> 表示的是小于或等于每一组上组限的数据项个数，而不是表示每一组的频数。</p>
-<h4 id="茎叶显示"><a href="#茎叶显示" class="headerlink" title="茎叶显示"></a>茎叶显示</h4><p><strong>茎叶显示（stem-and-leaf display）</strong></p>
-<hr>
-<h3 id="用表格方法汇总两个变量的数据"><a href="#用表格方法汇总两个变量的数据" class="headerlink" title="用表格方法汇总两个变量的数据"></a>用表格方法汇总两个变量的数据</h3><h4 id="交叉分组表"><a href="#交叉分组表" class="headerlink" title="交叉分组表"></a>交叉分组表</h4><p><strong>交叉分组表(crosstabulation)</strong><br>是一种汇总两个变量数据的方法。一般来讲一个变量是分类型，另一个变量是数量型最常见</p>
-<h4 id="辛普森悖论"><a href="#辛普森悖论" class="headerlink" title="辛普森悖论"></a>辛普森悖论</h4><p>我们常常合并并综合两个或两个以上的交叉分组表中的内容，生成一个汇总的交叉分组表，以显示两个变量的相关性。在这种情况下，从两个或多个单独的交叉分组表得到的结论与一个综合的交叉分组表数据得到的结论可能截然相反。依据综合和为综合数据得到的相反结论被称为<strong>辛普森悖论（Simpson’s paradox）</strong>。个人理解，因为存在分类型变量，所以存在==权重==问题，要注意隐藏的变量。</p>
-<h3 id="用图形显示方法汇总两个变量的数据"><a href="#用图形显示方法汇总两个变量的数据" class="headerlink" title="用图形显示方法汇总两个变量的数据"></a>用图形显示方法汇总两个变量的数据</h3><h4 id="散点图和趋势线"><a href="#散点图和趋势线" class="headerlink" title="散点图和趋势线"></a>散点图和趋势线</h4><p><strong>散点图（scatter diagram）</strong><br>是对两个数量变量间关系的图形表述，<br><strong>趋势线（trendline）</strong><br>是显示相关性近似程度的一条直线。</p>
-<h4 id="复合条形图和结构条形图"><a href="#复合条形图和结构条形图" class="headerlink" title="复合条形图和结构条形图"></a>复合条形图和结构条形图</h4><p><strong>复合条形图（side-by-side bar chart）</strong> 是对已汇总的多个条形图同时显示的一种图形显示方法。<br><strong>结构条形图（stacked chart）</strong> 其每一个长条被分解成不同颜色的矩形段，以与饼图类似的方法显示每一组的相对频数。</p>
-<h4 id="数据仪表板"><a href="#数据仪表板" class="headerlink" title="数据仪表板"></a>数据仪表板</h4><p>数据可视化工具使用最广泛的一种是<strong>数据仪表板（data dashboard）</strong> 。大杂烩，类似汽车的仪表盘。很多种（简单的）图形表示放在一起。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/05/商务与经济统计-（二）描述统计学一：表格法和图形法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -530,8 +984,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/经济学/" itemprop="url" rel="index">
-                    <span itemprop="name">经济学</span>
+                  <a href="/categories/商务与经济统计/" itemprop="url" rel="index">
+                    <span itemprop="name">商务与经济统计</span>
                   </a>
                 </span>
 
@@ -985,8 +1439,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -1373,290 +1827,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/05/利用hexo和github-page搭建博客（上）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="延时晓">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/qingyin.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="延时晓">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/05/利用hexo和github-page搭建博客（上）/" itemprop="url">利用hexo和github page搭建博客（上）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-05T10:15:46+08:00">
-                2018-02-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>安装NodeJS和Git并配置环境变量</p>
-<p>测试node</p>
-<p>node -v<br>npm -v<br>​   测试git</p>
-<p>电脑任一文件夹右键出现Git GUI Here和Git Bash Here<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/05/利用hexo和github-page搭建博客（上）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    <div>
-      
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/03/Sublime Text3插件整理(待续)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="延时晓">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/qingyin.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="延时晓">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/03/Sublime Text3插件整理(待续)/" itemprop="url">Sublime Text3插件整理(待续)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-03T00:25:08+08:00">
-                2018-02-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/软件/" itemprop="url" rel="index">
-                    <span itemprop="name">软件</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          Sublime Text 3插件
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/03/Sublime Text3插件整理(待续)/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    <div>
-      
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1704,7 +1881,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1715,7 +1892,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1726,7 +1903,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

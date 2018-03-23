@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据分析 Python R Excel," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Excel、Python、R三种方法进行频数分析并画出条形图和饼形图 Excel 利用函数COUNTIF，传入两个参数，第一个为源数据，第二个为分类数据各列一遍（即频数统计的各项）  Python频数统计利用count()函数，具体见下方条形图的代码。 条形图方法如下：  matplotlib.pyplot.bar(left, height, width=0.8, bottom=None, hol">
+<meta name="keywords" content="数据分析 Python R Excel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Python、R、Excel做频数统计并绘制条形图和饼图">
+<meta property="og:url" content="http://yoursite.com/2018/03/07/利用Python、R、Excel做频数统计并绘制条形图和饼图/index.html">
+<meta property="og:site_name" content="延时晓">
+<meta property="og:description" content="Excel、Python、R三种方法进行频数分析并画出条形图和饼形图 Excel 利用函数COUNTIF，传入两个参数，第一个为源数据，第二个为分类数据各列一遍（即频数统计的各项）  Python频数统计利用count()函数，具体见下方条形图的代码。 条形图方法如下：  matplotlib.pyplot.bar(left, height, width=0.8, bottom=None, hol">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006S91wdgy1fp4214rt3oj30hs0d50sq.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006S91wdgy1fp425rzm6mj30hs0d5t99.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006S91wdly1fp42d255vaj30cj0a7q2q.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006S91wdgy1fp42i5mveoj30dc0dcglf.jpg">
+<meta property="og:updated_time" content="2018-03-07T03:19:49.523Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Python、R、Excel做频数统计并绘制条形图和饼图">
+<meta name="twitter:description" content="Excel、Python、R三种方法进行频数分析并画出条形图和饼形图 Excel 利用函数COUNTIF，传入两个参数，第一个为源数据，第二个为分类数据各列一遍（即频数统计的各项）  Python频数统计利用count()函数，具体见下方条形图的代码。 条形图方法如下：  matplotlib.pyplot.bar(left, height, width=0.8, bottom=None, hol">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006S91wdgy1fp4214rt3oj30hs0d50sq.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/07/利用Python、R、Excel做频数统计并绘制条形图和饼图/"/>
+
+
+
+
+
+  <title>利用Python、R、Excel做频数统计并绘制条形图和饼图 | 延时晓</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/yanshixiao/yanshixiao.github.io.git"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">延时晓</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">子标题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/07/利用Python、R、Excel做频数统计并绘制条形图和饼图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="延时晓">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qingyin.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="延时晓">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用Python、R、Excel做频数统计并绘制条形图和饼图</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T11:03:41+08:00">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/商务与经济统计/" itemprop="url" rel="index">
+                    <span itemprop="name">商务与经济统计</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Excel、Python、R三种方法进行频数分析并画出条形图和饼形图</p>
+<p>Excel 利用函数COUNTIF，传入两个参数，第一个为源数据，第二个为分类数据各列一遍（即频数统计的各项）</p>
+<hr>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><h5 id="频数统计"><a href="#频数统计" class="headerlink" title="频数统计"></a>频数统计</h5><p>利用count()函数，具体见下方条形图的代码。</p>
+<h5 id="条形图"><a href="#条形图" class="headerlink" title="条形图"></a>条形图</h5><p>方法如下：</p>
+<blockquote>
+<p>matplotlib.pyplot.bar(left, height, width=0.8, bottom=None, hold=None, data=None, **kwargs)</p>
+</blockquote>
+<p>参数说明：</p>
+<ul>
+<li><p>left: 每一个柱形左侧的X坐标</p>
+</li>
+<li><p>height:每一个柱形的高度</p>
+</li>
+<li><p>width: 柱形之间的宽度</p>
+</li>
+<li><p>bottom: 柱形的Y坐标</p>
+</li>
+<li><p>color: 柱形的颜色</p>
+</li>
+</ul>
+<a id="more"></a>
+<p><a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.bar.html#matplotlib.pyplot.bar" target="_blank" rel="noopener">官网解释</a></p>
+<p>代码示例：</p>
+<pre><code>from matplotlib import pyplot as plt
+import numpy as np
+
+# 中文乱码的处理
+plt.rcParams[&apos;font.sans-serif&apos;] =[&apos;Microsoft YaHei&apos;]
+plt.rcParams[&apos;axes.unicode_minus&apos;] = False
+
+#第一步，取出一张白纸
+fig = plt.figure(1)
+
+#第二步，确定绘图范围，由于只需要画一张图，所以我们将整张白纸作为绘图的范围(111等同于1,1,1 表示一行一列的第一个)
+ax1 = plt.subplot(111)
+
+#第三步，整理我们准备绘制的数据
+data = np.array([15, 20, 18, 25])
+
+#第四步，准备绘制条形图，思考绘制条形图需要确定那些要素
+#1、绘制的条形宽度
+#2、绘制的条形位置(中心)
+#3、条形图的高度（数据值）
+width=0.5
+x_bar = np.arange(4)
+
+#第五步，绘制条形图的主体，条形图实质上就是一系列的矩形元素，我们通过plt.bar函数来绘制条形图
+rect = ax1.bar(left=x_bar, height=data, width=width, color=&quot;lightblue&quot;)
+
+#第六步，向各条形上添加数据标签
+for rec in rect:
+    x=rec.get_x()
+    height=rec.get_height()
+    ax1.text(x+0.1,1.02*height,str(height))
+
+#第七步，绘制x，y坐标轴刻度及标签，标题
+ax1.set_xticks(x_bar)
+ax1.set_xticklabels((&quot;first&quot;, &quot;second&quot;, &quot;third&quot;, &quot;fourth&quot;))
+ax1.set_ylabel(&quot;sales&quot;)
+ax1.set_title(&quot;The Sales in 2016&quot;)
+ax1.grid(True)
+ax1.set_ylim(0, 28)
+plt.show()
+</code></pre><p>其中第五步创建矩形元素中，<br>left为x轴的位置序列，一般采用arange函数产生一个序列；height为y轴的数值序列，也就是柱形图的高度，一般就是我们需要展示的数据；width为柱形图的宽度。</p>
+<p>或者：</p>
+<pre><code>import random
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+tv_show = [&quot;WoF&quot;, &quot;THM&quot;, &quot;Jep&quot;, &quot;JJ&quot;, &quot;OWS&quot;]
+tvs = [random.choice(tv_show) for _ in range(50)]
+# print(tvs)
+# 频数
+WoF_count = tvs.count(&quot;WoF&quot;)
+THM_count = tvs.count(&quot;THM&quot;)
+Jep_count = tvs.count(&quot;Jep&quot;)
+JJ_count = tvs.count(&quot;JJ&quot;)
+OWS_count = tvs.count(&quot;OWS&quot;)
+
+# 条形图
+x_bar = np.arange(5)
+data = np.array([WoF_count, THM_count, Jep_count, JJ_count, OWS_count])
+fig = plt.figure()
+ax1 = plt.subplot(111)
+rect = ax1.bar(left=x_bar, width=0.5, height=data, color=&quot;lightblue&quot;)
+
+ax1.set_xticks(x_bar)
+ax1.set_xticklabels(tv_show)
+plt.xlabel(&quot;X&quot;)
+plt.ylabel(&quot;Y&quot;)
+plt.title(&quot;bar chart&quot;)
+plt.show()
+</code></pre><p>画出的图像是这样的<br><img src="http://ww1.sinaimg.cn/large/006S91wdgy1fp4214rt3oj30hs0d50sq.jpg" alt=""></p>
+<h5 id="饼形图"><a href="#饼形图" class="headerlink" title="饼形图"></a>饼形图</h5><p>方法及参数：</p>
+<blockquote>
+<p>pie(x, explode=None, labels=None,<br>        colors=(‘b’, ‘g’, ‘r’, ‘c’, ‘m’, ‘y’, ‘k’, ‘w’),<br>        autopct=None, pctdistance=0.6, shadow=False,<br>        labeldistance=1.1, startangle=None, radius=None,<br>        counterclock=True, wedgeprops=None, textprops=None,<br>        center = (0, 0), frame = False )  </p>
+</blockquote>
+<p>参数说明：</p>
+<ul>
+<li>x       (每一块)的比例，如果sum(x) &gt; 1会使用sum(x)归一化</li>
+<li>labels  (每一块)饼图外侧显示的说明文字</li>
+<li>explode (每一块)离开中心距离</li>
+<li>startangle  起始绘制角度,默认图是从x轴正方向逆时针画起,如设定=90则从y轴正方向画起</li>
+<li>shadow  是否阴影</li>
+<li>labeldistance label绘制位置,相对于半径的比例, 如&lt;1则绘制在饼图内侧</li>
+<li>autopct 控制饼图内百分比设置,可以使用format字符串或者format function</li>
+<li>‘%1.1f’指小数点前后位数(没有用空格补齐)</li>
+<li>pctdistance 类似于labeldistance,指定autopct的位置刻度</li>
+<li>radius  控制饼图半径</li>
+</ul>
+<p>随便以测试数据为例，画风大致是这样的</p>
+<pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+labels=[&apos;China&apos;,&apos;Swiss&apos;,&apos;USA&apos;,&apos;UK&apos;,&apos;Laos&apos;,&apos;Spain&apos;]
+x = [222, 42, 455, 664, 454, 334]
+explode = [0, 0.1, 0, 0, 0, 0] # 0.1 凸出这部分，
+
+fig = plt.figure()
+plt.pie(x, labels=labels, explode=explode, autopct=&apos;%1.2f%%&apos;)
+plt.title(&quot;Pie chart&quot;)
+
+plt.show()
+plt.savefig(&quot;PieChart.jpg&quot;)
+</code></pre><p><img src="http://ww1.sinaimg.cn/large/006S91wdgy1fp425rzm6mj30hs0d5t99.jpg" alt=""></p>
+<hr>
+<h3 id="R"><a href="#R" class="headerlink" title="R"></a>R</h3><p>利用table()函数，即可直观的看到频数。</p>
+<p>举个栗子：</p>
+<pre><code>a &lt;- c(&apos;A&apos;,&apos;B&apos;,&apos;C&apos;,&apos;A&apos;,&apos;D&apos;,&apos;B&apos;,&apos;E&apos;)
+
+test &lt;- table(a)
+# 提取table()中的元素
+names(test)
+# 提取table()中的频数
+as.numeric(test)
+
+# 转换
+test2 &lt;- as.data.frame(test)
+test2
+# 提取table()中频数为1的数据
+test2[which(test2$Freq==1),]
+# 提取table()中指定元素2的频数
+test2[which(test2$a==&apos;A&apos;),]
+</code></pre><h5 id="画条形图："><a href="#画条形图：" class="headerlink" title="画条形图："></a>画条形图：</h5><pre><code>library(ggplot2)
+test &lt;- c(&apos;A&apos;,&apos;B&apos;,&apos;C&apos;,&apos;D&apos;,&apos;A&apos;,&apos;C&apos;,&apos;C&apos;)
+test1 &lt;- table(test)
+test2 &lt;- as.data.frame(test1)
+x&lt;-test2$test
+y&lt;-test2$Freq
+ggplot(data=test2, aes(x=test, y=Freq)) + geom_bar(stat=&apos;identity&apos;)
+</code></pre><p>使用汇总好的数据画图</p>
+<pre><code>x &lt;- c(&apos;A&apos;,&apos;B&apos;,&apos;C&apos;,&apos;D&apos;,&apos;E&apos;)
+y &lt;- c(13,22,16,31,8)
+df &lt;- data.frame(x = x, y = y)
+ggplot(data = df, mapping = aes(x = x, y = y)) + geom_bar(stat = &apos;identity&apos;)
+</code></pre><p><img src="http://ww1.sinaimg.cn/large/006S91wdly1fp42d255vaj30cj0a7q2q.jpg" alt=""></p>
+<p>要强调的是如果横轴对应数据非离散型，则须先将其转为因子类型，否则结果会出现”空条”。利用factor()函数。</p>
+<p><a href="http://ggplot2.tidyverse.org/reference/geom_bar.html" target="_blank" rel="noopener">geombar官方文档</a></p>
+<h5 id="饼图："><a href="#饼图：" class="headerlink" title="饼图："></a>饼图：</h5><pre><code>x &lt;- c(9, 2, 4, 5)
+labels &lt;- c(&apos;A&apos;, &apos;B&apos;, &apos;C&apos;, &apos;D&apos;)
+
+# 给文件指定名称
+png(file=&quot;ABCD.jpg&quot;)
+# 画图
+pie(x, labels, main=&apos;pie chart demo&apos;, col=rainbow(length(x)), radius = 0.9)
+# 保存
+dev.off()
+</code></pre><p><img src="http://ww1.sinaimg.cn/large/006S91wdgy1fp42i5mveoj30dc0dcglf.jpg" alt=""></p>
+<p>使用R画饼图的语法如下：  </p>
+<blockquote>
+<p>pie(x, labels, radius, main, col, clockwise)</p>
+</blockquote>
+<p>以下是使用的参数的描述 -</p>
+<ul>
+<li>x - 是包含饼图中使用的数值的向量。</li>
+<li>labels - 用于描述切片的标签。</li>
+<li>radius - 用来表示饼图圆的半径(-1和+1之间的值)。</li>
+<li>main - 用来表示图表的标题。</li>
+<li>col - 表示调色板。</li>
+<li>clockwise - 是一个逻辑值，指示片是顺时针还是逆时针绘制。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据分析-Python-R-Excel/" rel="tag"># 数据分析 Python R Excel</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/05/商务与经济统计-（二）描述统计学一：表格法和图形法/" rel="next" title="商务与经济统计-（二）描述统计学一：表格法和图形法">
+                <i class="fa fa-chevron-left"></i> 商务与经济统计-（二）描述统计学一：表格法和图形法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/13/收获不止Oracle-体系结构/" rel="prev" title="收货不止Oracle-体系结构">
+                收货不止Oracle-体系结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/qingyin.gif"
+                alt="延时晓" />
+            
+              <p class="site-author-name" itemprop="name">延时晓</p>
+              <p class="site-description motion-element" itemprop="description">这是一条描述</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python"><span class="nav-number">1.</span> <span class="nav-text">Python</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#频数统计"><span class="nav-number">1.0.1.</span> <span class="nav-text">频数统计</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#条形图"><span class="nav-number">1.0.2.</span> <span class="nav-text">条形图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#饼形图"><span class="nav-number">1.0.3.</span> <span class="nav-text">饼形图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R"><span class="nav-number">2.</span> <span class="nav-text">R</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#画条形图："><span class="nav-number">2.0.1.</span> <span class="nav-text">画条形图：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#饼图："><span class="nav-number">2.0.2.</span> <span class="nav-text">饼图：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">延时晓</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/love.js"></script>

@@ -2,7 +2,7 @@
 title: hexo和github page博客next主题提交远程问题（多端同步编写博客）
 date: 2018-02-06 17:20:30
 tags: hexo 博客
-categories: 软件 
+categories: hexo
 
 ---
 

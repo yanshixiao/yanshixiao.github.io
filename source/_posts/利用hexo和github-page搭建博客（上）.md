@@ -2,6 +2,7 @@
 title: 利用hexo和github page搭建博客（上）
 date: 2018-02-05 10:15:46
 tags:
+categories: hexo
 ---
 
 安装NodeJS和Git并配置环境变量
