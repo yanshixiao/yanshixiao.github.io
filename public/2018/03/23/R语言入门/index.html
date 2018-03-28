@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+
+   <script>
+     (function(i,s,o,g,r,a,m){
+     i["DaoVoiceObject"]=r;
+     i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},
+     i[r].l=1*new Date();
+     a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];
+     a.async=1;
+     a.src=g;
+     a.charset="utf-8";
+     m.parentNode.insertBefore(a,m)
+     })(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/91218d21.js","daovoice")
+     daovoice('init', {
+     app_id: "91218d21"
+     });
+     daovoice('update');
+   </script>
+ 
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="R语言," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="运行R运行R有两种方式：一为命令行模式，即直接打开R.exe文件，进入带有版本信息等的控制台页面。如图">
+<meta name="keywords" content="R语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R语言入门">
+<meta property="og:url" content="http://yoursite.com/2018/03/23/R语言入门/index.html">
+<meta property="og:site_name" content="延时晓">
+<meta property="og:description" content="运行R运行R有两种方式：一为命令行模式，即直接打开R.exe文件，进入带有版本信息等的控制台页面。如图">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/R/R-1.png">
+<meta property="og:image" content="http://yoursite.com/images/R/R-2.png">
+<meta property="og:image" content="http://yoursite.com/images/R/R-3.png">
+<meta property="og:image" content="http://yoursite.com/images/R/R-4.png">
+<meta property="og:updated_time" content="2018-03-26T09:49:36.340Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="R语言入门">
+<meta name="twitter:description" content="运行R运行R有两种方式：一为命令行模式，即直接打开R.exe文件，进入带有版本信息等的控制台页面。如图">
+<meta name="twitter:image" content="http://yoursite.com/images/R/R-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/23/R语言入门/"/>
+
+
+
+
+
+  <title>R语言入门 | 延时晓</title>
+   <script>
+     (function(i,s,o,g,r,a,m){
+     i["DaoVoiceObject"]=r;
+     i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},
+     i[r].l=1*new Date();
+     a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];
+     a.async=1;
+     a.src=g;
+     a.charset="utf-8";
+     m.parentNode.insertBefore(a,m)
+     })(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/91218d21.js","daovoice")
+     daovoice('init', {
+     app_id: "91218d21"
+     });
+     daovoice('update');
+   </script>
+ 
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/yanshixiao/yanshixiao.github.io.git"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">延时晓</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">子标题</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/23/R语言入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="延时晓">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/qingyin.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="延时晓">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">R语言入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-23T14:21:20+08:00">
+                2018-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R语言/" itemprop="url" rel="index">
+                    <span itemprop="name">R语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  993 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="运行R"><a href="#运行R" class="headerlink" title="运行R"></a>运行R</h5><p>运行R有两种方式：一为命令行模式，即直接打开R.exe文件，进入带有版本信息等的控制台页面。如图</p>
+<p><img src="/images/R/R-1.png" alt="R控制台"><br><a id="more"></a></p>
+<p>通常，R代码文件都会有后缀.R，如果创建了一个z.R文件，可以用在控制台source(“z.R”)执行文件中的代码。</p>
+<p><img src="/images/R/R-2.png" alt="R控制台"></p>
+<p>二为批处理模式，R CMD BATCH z.R</p>
+<p><img src="/images/R/R-3.png" alt="R CMD BATCH"><br><img src="/images/R/R-4.png" alt="R 运行结果"></p>
+<h5 id="一些简单的操作"><a href="#一些简单的操作" class="headerlink" title="一些简单的操作"></a>一些简单的操作</h5><pre><code>&gt;x &lt;- c(1,2,4)
+</code></pre><p>R语言的标准赋值运算符是 &lt;-。</p>
+<pre><code>&gt; x[3]
+[1] 4
+</code></pre><p>R向量的元素索引是从1开始的，而非0。</p>
+<pre><code>&gt; mean(x)
+[1] 2.333333
+&gt; sd(x)
+[1] 1.527525
+</code></pre><p>mean()平均数，sd()标准差</p>
+<pre><code>&gt; mean(Nile)
+[1] 919.35
+&gt; sd(Nile)
+[1] 169.2275
+hist(Nile)
+</code></pre><p>图4，直方图</p>
+<h5 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h5><pre><code># counts the number of odd integers in x
+&gt; oddcount &lt;- function(x) {
++     k &lt;- 0 # assign 0 to k
++     for (n in x) {
++         if(n %%2 ==1) k &lt;- k+1 # %% is the module operator
++     }
++     return(k)
++ }
+&gt; oddcount(c(1,3,5))
+[1] 3
+&gt; oddcount(c(1,2,3,7,9))
+[1] 4
+</code></pre><p>计算向量中奇数的数量。</p>
+<h5 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h5><p>这个没啥可说的，函数内部的变量在外部调用自然会报错。</p>
+<pre><code>&gt; x&lt;-3
+&gt; f &lt;- function(x) return(x+10)
+&gt; f(x)
+[1] 13
+&gt; x
+[1] 3
+</code></pre><p>即使函数改变了向量的值，原本向量也不会变化，因为执行函数时是copy了一份作为局部变量使用的，即 R函数中的形参是局部变量。</p>
+<h5 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h5><pre><code>&gt; g &lt;- function(x, y=2, z=T) {....}
+&gt; g(12, z=FALSE)
+</code></pre><h5 id="R语言中部分数据结构"><a href="#R语言中部分数据结构" class="headerlink" title="R语言中部分数据结构"></a>R语言中部分数据结构</h5><h6 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h6><p>说到向量，不得不提标量。标量，或单个的数，其实在R中并不存在，R语言把单个的数当做只有一个元素的向量。</p>
+<h6 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h6><p>字符串实际上是字符模式（而不是数字模式）的单元素向量。</p>
+<pre><code>&gt; x &lt;- c(5,12,13)
+&gt; x
+[1] 5 12 13
+&gt; length(x)
+[1] 3
+&gt; mode(x)
+[1] &quot;numeric&quot;
+&gt; y &lt;- &quot;abc&quot;
+&gt; y
+[1] &quot;abc&quot;
+&gt; length(y)
+[1] 1
+&gt; mode(y)
+[1] &quot;character&quot;
+</code></pre><p>mode()分析数据类型。</p>
+<pre><code>&gt; u &lt;- paste(&quot;abc&quot;, &quot;de&quot;, &quot;f&quot;)
+&gt; u
+[1] &quot;abc de f&quot;
+&gt; v &lt;- strsplit(u, &quot; &quot;) # split the string according to blanks
+&gt; v
+[[1]]
+[1] &quot;abc&quot; &quot;de&quot; &quot;f&quot;
+</code></pre><p>paste()字符串合并, strsplit()分割字符串，第一个参数为待分割的字符串，第二个参数为分割依据。</p>
+<h6 id="矩阵"><a href="#矩阵" class="headerlink" title="矩阵"></a>矩阵</h6><p>矩阵其实也是向量。不过多了两个附加的属性：行数和列数。</p>
+<pre><code>&gt; m &lt;- rbind(c(1,4), c(2,2))
+&gt; m
+     [,1] [,2]
+[1,]    1    4
+[2,]    2    2
+&gt; m %*% c(1,1)
+     [,1]
+[1,]    5
+[2,]    4
+</code></pre><p>rbind() 按行绑定。%*%矩阵乘法。</p>
+<h6 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h6><p>列表中的数据可以是不同的数据类型。</p>
+<pre><code>&gt; x &lt;- list(u=2, v=&quot;abc&quot;)
+&gt; x
+$u
+[1] 2
+
+$v
+[1] &quot;abc&quot;
+
+&gt; x$u
+[1] 2
+&gt; x$v
+[1] &quot;abc&quot;
+</code></pre><p>x$u指的是列表x中的组件u。</p>
+<pre><code>&gt; hist(Nile)
+&gt; hn &lt;- hist(Nile)
+&gt; print(hn)
+$breaks
+ [1]  400  500  600  700  800  900 1000 1100 1200 1300 1400
+
+$counts
+ [1]  1  0  5 20 25 19 12 11  6  1
+
+$density
+ [1] 0.0001 0.0000 0.0005 0.0020 0.0025 0.0019 0.0012 0.0011 0.0006 0.0001
+
+$mids
+ [1]  450  550  650  750  850  950 1050 1150 1250 1350
+
+$xname
+[1] &quot;Nile&quot;
+
+$equidist
+[1] TRUE
+
+attr(,&quot;class&quot;)
+[1] &quot;histogram&quot;
+</code></pre><p>hist函数的返回值，很显然也是一个列表。</p>
+<pre><code>&gt; str(hn)
+List of 6
+ $ breaks  : int [1:11] 400 500 600 700 800 900 1000 1100 1200 1300 ...
+ $ counts  : int [1:10] 1 0 5 20 25 19 12 11 6 1
+ $ density : num [1:10] 0.0001 0 0.0005 0.002 0.0025 0.0019 0.0012 0.0011 0.0006 0.0001
+ $ mids    : num [1:10] 450 550 650 750 850 950 1050 1150 1250 1350
+ $ xname   : chr &quot;Nile&quot;
+ $ equidist: logi TRUE
+ - attr(*, &quot;class&quot;)= chr &quot;histogram&quot;
+</code></pre><p>str() 代表structure结构，显示任何R对象的内部结构。和字符串可没啥关系~~~</p>
+<h6 id="数据框"><a href="#数据框" class="headerlink" title="数据框"></a>数据框</h6><pre><code>&gt; d &lt;- data.frame(list(kids=c(&quot;Jack&quot;, &quot;Jill&quot;),ages=c(12,10)))
+&gt; d
+  kids ages
+1 Jack   12
+2 Jill   10
+</code></pre><h6 id="类"><a href="#类" class="headerlink" title="类"></a>类</h6><pre><code>&gt; hn &lt;- hist(Nile)
+&gt; summary(hn)
+         Length Class  Mode
+breaks   11     -none- numeric
+counts   10     -none- numeric
+density  10     -none- numeric
+mids     10     -none- numeric
+xname     1     -none- character
+equidist  1     -none- logical
+</code></pre><p>str()查看对象时，有属性“class”，表示是个类，如果函数输出结果是一个列表，同时是一个类，可以用summary()函数生成“摘要”。</p>
+<h5 id="获取帮助"><a href="#获取帮助" class="headerlink" title="获取帮助"></a>获取帮助</h5><p>在线帮助help()。调用help()的快捷方式是用问号（？）。<br>特殊字符及保留字必须用引号括起来。比如</p>
+<pre><code>&gt; ?&quot;&lt;&quot;
+</code></pre><p>example()函数获取一些示例。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/R语言/" rel="tag"># R语言</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/15/收获不止Oracle-内存参数的调整/" rel="next" title="收获不止Oracle-内存参数的调整">
+                <i class="fa fa-chevron-left"></i> 收获不止Oracle-内存参数的调整
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/26/收获不止Oracle-进程查看及数据库启停/" rel="prev" title="收获不止Oracle-进程查看及数据库启停">
+                收获不止Oracle-进程查看及数据库启停 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/qingyin.gif"
+                alt="延时晓" />
+            
+              <p class="site-author-name" itemprop="name">延时晓</p>
+              <p class="site-description motion-element" itemprop="description">这是一条描述</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yourname" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xuexinyu.com" title="东皇" target="_blank">东皇</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#运行R"><span class="nav-number">1.</span> <span class="nav-text">运行R</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一些简单的操作"><span class="nav-number">2.</span> <span class="nav-text">一些简单的操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#函数"><span class="nav-number">3.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#变量作用域"><span class="nav-number">4.</span> <span class="nav-text">变量作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#默认参数"><span class="nav-number">5.</span> <span class="nav-text">默认参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#R语言中部分数据结构"><span class="nav-number">6.</span> <span class="nav-text">R语言中部分数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#向量"><span class="nav-number">6.1.</span> <span class="nav-text">向量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#字符串"><span class="nav-number">6.2.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#矩阵"><span class="nav-number">6.3.</span> <span class="nav-text">矩阵</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#列表"><span class="nav-number">6.4.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#数据框"><span class="nav-number">6.5.</span> <span class="nav-text">数据框</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#类"><span class="nav-number">6.6.</span> <span class="nav-text">类</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#获取帮助"><span class="nav-number">7.</span> <span class="nav-text">获取帮助</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">延时晓</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/love.js"></script>

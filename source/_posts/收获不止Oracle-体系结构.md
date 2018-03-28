@@ -8,7 +8,7 @@ categories: 收获不止Oracle
 #### 体系结构
 啥也不说，先贴个图
 
-![image](../images/shouhuo/3.png)
+![image](/images/shouhuo/3.png)
 
 <!--more-->
 

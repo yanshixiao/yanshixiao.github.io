@@ -2,7 +2,7 @@
 title: windows 下安装 mysql5.7 zip版
 date: 2018-02-07 18:41:09
 tags: 软件 mysql
-categories: 软件
+categories: MySQL
 ---
 
 ### MySQL数据库（zip）安装  

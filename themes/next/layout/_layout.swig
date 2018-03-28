@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+{% include '_third-party/daovoice/daovoice.swig' %}
 {% set html_class = 'theme-next ' + theme.scheme %}
 {% if theme.motion.enable %}
   {% set html_class = html_class + ' use-motion' %}
@@ -8,7 +8,7 @@
 <html class="{{ html_class | lower }}" lang="{{ config.language }}">
 <head>
   {% include '_partials/head.swig' %}
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}{% endblock %}</title>{% include '_third-party/daovoice/daovoice.swig' %}
   {% include '_third-party/analytics/index.swig' %}
 </head>
 
